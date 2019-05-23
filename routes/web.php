@@ -23,3 +23,7 @@ Route::get('/student/add', 'TestController@showAddStudent')->name('showAddStuden
 Route::post('/student/add', 'TestController@handleAddStudent')->name('handleAddStudent'); 
 Route::get('/student/delete/{id}', 'TestController@handleDeleteStudent')->name('handleDeleteStudent');
 Route::get('/student/view/{id}', 'TestController@showStudent')->name('showStudent');
+
+Route::get('/student/update/{id}', 'TestController@showUpdateStudent')->name('showUpdateStudent');
+
+Route::post('/student/update/{id}', 'TestController@handleUpdateStudent')->name('handleUpdateStudent');

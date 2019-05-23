@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Classroom;
 use App\Student;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
 {
@@ -83,6 +84,59 @@ class TestController extends Controller
     	return view('student.show',['student'=>$student]);
 
     }
+
+    public function showUpdateStudent($id) 
+    {
+    	$student = student::find($id);
+    	
+    	if ($student) 
+	    {
+	    	$classroom =Classroom::all();    
+	    	return view('student.view',['student'=>$student,'classroom'=>$classroom]);
+	    	return back();
+	    }
+	    else {
+	    	return 'erreur';
+	    }
+    }
+
+    public function handleUpdateStudent($id) 
+
+    {
+    	/*
+    	$data = Input::all();
+    	$student = student::find($id);
+    	$student->name = $data['name'];
+    	$student->email = $data['email'];
+kjn,knj 
+jhg
+j g
+jh
+g
+    	$student->save();
+
+
+		*/		
+
+		$data = Input::all();
+    	$student = Student::whereId($id)->update([
+    		'email' => $data['email'],
+    		'name' => $data['name']
+    	]);
+
+    	/*
+
+    	$data = Input::all();
+    	$student = DB::table('student')->where('id','=',$id)->update([
+    		'email' => $data['email'],
+    		'name' => $data['name']
+    	]);
+	*/
+
+
+
+    }
+
 
 
 
