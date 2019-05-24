@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Classroom;
 use App\Student;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\DB;
+use DB;
+use Image;
+use Auth;
+use Carbon\Carbon;
 
 class TestController extends Controller
 {
@@ -14,6 +17,7 @@ class TestController extends Controller
     public function showClassroomList() 
     {
     	$classrooms = Classroom::all();
+
     	//$classrooms = classroom::find(5);
     	//dd($classrooms->title);
     	//dd($classrooms);
@@ -30,9 +34,16 @@ class TestController extends Controller
     {
 
     	$data = Input::all();
+    	//dd($data);
+
+    	$photo = 'photo-' . str_random(5) . time() . '.' . $data['photo']->getClientOriginalExtension();
+            $fullImagePath = public_path('storage/classrooms/' . $photo);    //pour la créer a partir de la racine public image d'origine pour sa création 
+            Image::make($data['photo']->getRealPath())->save($fullImagePath);
+            $photoPath = 'storage/classrooms/' . $photo;    //on va stocker a partir du storage / enregistrement dans la bd / juste pour lire l'image
+
     	Classroom::create([
     		'title' => $data['title'],
-    		'photo' => $data['photo']
+    		'photo' => $photoPath
     	]);
 
     	//return back();
@@ -71,7 +82,8 @@ class TestController extends Controller
 	    	$student->delete();
 	    	return 'succes';	
 	    }
-	    else {
+	    else 
+        {
 	    	return 'erreur';
 	    }
 
@@ -87,6 +99,11 @@ class TestController extends Controller
 
     public function showUpdateStudent($id) 
     {
+        /*if(!Auth::user()) 
+        {
+            return redirect(route('showClassroomList'));
+        }*/
+
     	$student = student::find($id);
     	
     	if ($student) 
@@ -95,7 +112,8 @@ class TestController extends Controller
 	    	return view('student.view',['student'=>$student,'classroom'=>$classroom]);
 	    	return back();
 	    }
-	    else {
+	    else 
+        {
 	    	return 'erreur';
 	    }
     }
@@ -108,11 +126,7 @@ class TestController extends Controller
     	$student = student::find($id);
     	$student->name = $data['name'];
     	$student->email = $data['email'];
-kjn,knj 
-jhg
-j g
-jh
-g
+
     	$student->save();
 
 
@@ -133,9 +147,43 @@ g
     	]);
 	*/
 
+    }
 
+    public function showStudentLogin() 
+    {
+        return view('student.login');
 
     }
+
+    public function handleStudentLogin() 
+    {
+        $data  = Input::all();
+        $cred = [
+            
+            'email'=> $data['user_mail'],
+            'password'=> $data['pssword']
+        ];
+
+        if (Auth::attempt($cred)) {
+
+            return redirect(route('showAddClassroom'));
+        }
+
+       return back();
+
+    }
+
+    public function handleStudentLogout() 
+    {
+        Auth::logout();
+        return redirect(route('showClassroomList'));
+        
+
+    }
+
+
+
+
 
 
 

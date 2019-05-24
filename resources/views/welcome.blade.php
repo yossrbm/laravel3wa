@@ -100,15 +100,15 @@
                     @foreach($classrooms as $classroom)
                     <tr>
                         <td>{{$classroom->title}}</td>
-                        <td>{{$classroom->photo}}</td>
+                        <td><img width="100px;" src="{{asset($classroom->photo)}}"/></td>
 
                         <td>{{$classroom->students->count()}}</td> 
                         <td>
                             <ul>
                                 @foreach($classroom->students as $student)
                                 <li>{{$student->name}}</li>
-                                    <a href="{{route('handleDeleteStudent',['id'=>$student->id])}}">Supprimer</a>
-                                    <a href="{{route('showStudent',['id'=>$student->id])}}">Consulter</a>
+                                    @auth<a href="{{route('handleDeleteStudent',['id'=>$student->id])}}">Supprimer</a>@endauth
+                                    @auth<a href="{{route('showStudent',['id'=>$student->id])}}">Consulter</a>@endauth
                                 <li>{{$student->email}}</li>
                                 @endforeach
                             </ul>
@@ -116,7 +116,7 @@
                     </tr>
                     @endforeach
                 </table>
-                <h3>hdhdhdudhfsihdfshfihfisfhshfhsf</h3>
+               
                 
 
 
