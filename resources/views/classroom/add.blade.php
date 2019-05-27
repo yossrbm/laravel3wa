@@ -10,4 +10,11 @@
 			
 </form>
 
+@if(Session::has('message'))
+	<div>
+		{{session('message')}}
+		{{session::forget('message')}}
+	</div>
+@endif
+
 

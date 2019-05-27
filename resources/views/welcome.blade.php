@@ -108,7 +108,7 @@
                                 @foreach($classroom->students as $student)
                                 <li>{{$student->name}}</li>
                                     @auth<a href="{{route('handleDeleteStudent',['id'=>$student->id])}}">Supprimer</a>@endauth
-                                    @auth<a href="{{route('showStudent',['id'=>$student->id])}}">Consulter</a>@endauth
+                                    @auth<a href="{{route('showStudent',['id'=>cryptageID($student->id)])}}">Consulter</a>@endauth
                                 <li>{{$student->email}}</li>
                                 @endforeach
                             </ul>

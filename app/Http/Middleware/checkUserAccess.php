@@ -18,9 +18,15 @@ class checkUserAccess
     public function handle($request, Closure $next)
     {
         
-        if (Auth::user()) {
+        if (Auth::user())
+
+        {
             return $next($request);
-        }else {
+        }
+        
+        else 
+
+        {
             return redirect(route('showClassroomList'));
         }
     }

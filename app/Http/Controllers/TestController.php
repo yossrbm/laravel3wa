@@ -10,6 +10,8 @@ use DB;
 use Image;
 use Auth;
 use Carbon\Carbon;
+use Validator;
+use Session;
 
 class TestController extends Controller
 {
@@ -62,6 +64,22 @@ class TestController extends Controller
 
     {
     	$data = Input::all();
+
+        $rules = [
+        'name' => 'required',
+        'email' => 'required | email'
+        ];
+        $messages = [
+            'name.required' => 'Veulliez saisir votre nom',
+            'email.required' =>'Veuillez saisir votre email',
+            'email.required' => 'Votre email est invalide'
+        ];
+
+        $validation = Validator::make($data,$rules,$messages);
+        if ($validation -> fails()) {
+            return redirect()->back()->withErrors($validation->errors());
+        }
+
     	Student::create([
 
     		'email' => $data['email'],
@@ -69,9 +87,10 @@ class TestController extends Controller
     		'password' => bcrypt($data['password']),
     		'classroom_id' => $data['classroom']
     	]);
-    	return back();
-    }
 
+    	return back();
+
+    }
 
     public function handleDeleteStudent($id)
 
@@ -92,6 +111,7 @@ class TestController extends Controller
     public function showStudent($id)
 
     {
+        $id=decryptageID($id);                         
     	$student = student::find($id);
     	return view('student.show',['student'=>$student]);
 
@@ -166,6 +186,10 @@ class TestController extends Controller
 
         if (Auth::attempt($cred)) {
 
+            Session::put([
+                'message' => 'Connexion réussie',
+            ]);
+
             return redirect(route('showAddClassroom'));
         }
 
@@ -173,19 +197,11 @@ class TestController extends Controller
 
     }
 
-    public function handleStudentLogout() 
+    public function handleStudentLogout()
+
     {
         Auth::logout();
         return redirect(route('showClassroomList'));
-        
-
     }
-
-
-
-
-
-
-
 
 }
