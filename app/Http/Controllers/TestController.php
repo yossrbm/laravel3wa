@@ -204,4 +204,36 @@ class TestController extends Controller
         return redirect(route('showClassroomList'));
     }
 
+
+    public function showSearchStudent() 
+
+    {
+        return view('student.search');
+
+    }
+
+    public function handleSearchStudent() 
+
+    {
+
+        $data  = Input::all();
+        //dd($data['name']);
+        $student=Student::Where('name', 'like', '%' . $data['name'] . '%')->get();
+        dd($student);
+        //return back();
+    }
+/*
+    public function handleStudentSearchDate()
+
+    {
+    
+        $data=Input::all();
+        $firstDate = Carbon::createFromFormat("Y-m-d", $data['firstDate']);
+        $lastDate = Carbon::createFromFormat("Y-m-d", $data['lastDate']);
+        $student=Student::WhereBetween('created_at', [$firstDate,$lastDate] )->get();
+        dd($student);
+
+    }
+
+*/
 }

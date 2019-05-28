@@ -1,4 +1,4 @@
-<h2>Bienvenue, {{Auth::user()->name}} {{Auth::user()->created_at->diffForHumans(now())}}</h2>
+<h2>@lang('perso.hello', ['username' => Auth::user()->name]) {{Auth::user()->created_at->diffForHumans(now())}}</h2>
 <form action="{{route('handleAddClassroom')}}" method="POST" enctype="multipart/form-data">
 	{{csrf_field()}}
 	<label>Titre</label>
@@ -17,4 +17,5 @@
 	</div>
 @endif
 
+{{trans_choice('perso.class',2)}}
 

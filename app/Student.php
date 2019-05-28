@@ -23,7 +23,7 @@ class Student extends Authenticatable
         'email', 'name','password','classroom_id',
     ];
 
-    protected $table = 'student';
+    protected $table = 'student'; // on est obligé pour l'ecrire car on a pas mis la table a la fin s
     
 
     public function classroom()

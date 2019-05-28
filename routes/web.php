@@ -37,3 +37,5 @@ Route::middleware(['check'])->group(function () {
 Route::get('/student/login', 'TestController@showStudentLogin')->name('showStudentLogin');
 Route::post('/student/login', 'TestController@handleStudentLogin')->name('handleStudentLogin');
 Route::get('/student/logout', 'TestController@handleStudentLogout')->name('handleStudentLogout');
+Route::get('/student/search','TestController@showSearchStudent')->name('showSearchStudent');
+Route::post('/student/search','TestController@handleSearchStudent')->name('handleSearchStudent');
